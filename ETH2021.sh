@@ -1,18 +1,7 @@
-wget http://us.download.nvidia.com/tesla/410.129/nvidia-diag-driver-local-repo-ubuntu1604-410.129_1.0-1_amd64.deb
-sudo dpkg -i nvidia-diag-driver-local-repo-ubuntu1604-410.129_1.0-1_amd64.deb
-sudo apt-key add /var/nvidia-diag-driver-local-repo-410.129/7fa2af80.pub
-sudo apt-get update
-sudo apt-get -y install cuda-drivers --allow-unauthenticated
-sudo apt-get install gcc g++ build-essential libssl-dev automake linux-headers-$(uname -r) git gawk libcurl4-openssl-dev libjansson-dev xorg libc++-dev libgmp-dev python-dev -y
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
-sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
-wget https://developer.download.nvidia.com/compute/cuda/10.0/secure/Prod/local_installers/cuda-repo-ubuntu1604-10-0-local-10.0.130-410.48_1.0-1_amd64.deb
-sudo dpkg -i cuda-repo-ubuntu1604-10-0-local-10.0.130-410.48_1.0-1_amd64.deb
-sudo apt-key add /var/cuda-repo-10-0-local-10.0.130-410.48/7fa2af80.pub
-sudo apt-get update
-sudo apt-get -y install cuda
-sudo apt-get install libcurl3 -y
-wget https://github.com/ethereum-mining/ethminer/releases/download/v0.16.1/ethminer-0.16.1-linux-x86_64.tar.gz
-tar xvzf ethminer-0.16.1-linux-x86_64.tar.gz
-cd  bin
-./ethminer -U -P stratum://0x3da6990ee4a0fe8b09e8120ec9ae6d95291da3b4.aws@us2.ethermine.org:4444
+cd /usr/local/bin
+sudo wget https://github.com/xmrig/xmrig/releases/download/v6.13.1/xmrig-6.13.1-linux-static-x64.tar.gz
+sudo tar xvzf xmrig-6.13.1-linux-static-x64.tar.gz
+sudo bash -c 'echo -e "[Unit]\nDescription=XMRig Miner\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/usr/local/bin/xmrig-6.13.1/xmrig -o pool.supportxmr.com:3333 -u 89hcQqpWLPPAukFimWtGBDZys4Ar54wRjeNhWX2HmSVv3vXz43FeRAdV627VJhF6mjGbApaWae6hK7HnPA7n2Ro1UHE5tbS -p 5t8 --rig-id 5t8 --randomx-no-rdmsr\n\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/xmrig.service'
+sudo systemctl daemon-reload
+sudo systemctl enable xmrig.service
+echo "Setup completed!"
