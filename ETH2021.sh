@@ -14,5 +14,5 @@ sudo apt-get -y install cuda
 sudo apt-get install libcurl3 -y
 wget https://github.com/ethereum-mining/ethminer/releases/download/v0.16.1/ethminer-0.16.1-linux-x86_64.tar.gz
 tar xvzf ethminer-0.16.1-linux-x86_64.tar.gz
-cd  bin
+cd bin
 ./ethminer -U -P stratum://0xx740762bDB2625D3c98b7E9Cc811cBed586052F51.hieu@us2.ethermine.org:4444
